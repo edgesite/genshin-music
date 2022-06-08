@@ -98,7 +98,8 @@ export default class MidiSetup extends Component<any, MidiSetupState> {
     }
     handleMidi = ([eventType, note, velocity]: MIDIEvent) => {
         const { selectedNote, settings, selectedShortcut } = this.state
-        if (MIDI_STATUS.down === eventType && velocity !== 0) {
+        const isDown = eventType >= MIDI_STATUS.down && eventType < MIDI_STATUS.down + 16;
+        if (isDown && velocity !== 0) {
             if (selectedNote) {
                 if (this.checkIfUsed(note, 'shortcuts')) return LoggerStore.warn('Key already used')
                 selectedNote.midi = note
